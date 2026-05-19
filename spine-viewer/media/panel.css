@@ -1,0 +1,134 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #0b1020;
+  color: #dce5ff;
+}
+
+.layout {
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr auto;
+  gap: 12px;
+  height: 100vh;
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: #9aa8d9;
+  font-size: 12px;
+}
+
+.badge {
+  font-size: 12px;
+  background: #1f2b53;
+  border: 1px solid #2f4180;
+  border-radius: 999px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+  font-size: 12px;
+  color: #aeb8da;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: #aeb8da;
+}
+
+label.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+select,
+button {
+  height: 34px;
+  border: 1px solid #2f4180;
+  border-radius: 8px;
+  background: #111933;
+  color: #dce5ff;
+  padding: 0 10px;
+}
+
+button {
+  cursor: pointer;
+  background: #1f2b53;
+  font-weight: 600;
+}
+
+.locked {
+  border: 1px dashed #35416c;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #101a36;
+}
+
+.locked h2 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8ea1dc;
+}
+
+.locked p {
+  margin: 0;
+  font-size: 12px;
+  color: #aeb8da;
+}
+
+.player-shell {
+  min-height: 0;
+  border: 1px solid #2d3b6d;
+  border-radius: 12px;
+  overflow: hidden;
+  background: radial-gradient(circle at top right, #1b2a55, #0a0f1f 70%);
+}
+
+.player-root {
+  width: 100%;
+  height: 100%;
+}
+
+.status {
+  min-height: 20px;
+  font-size: 12px;
+  color: #95a6df;
+}
+
+.status.error {
+  color: #ff9494;
+}

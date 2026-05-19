@@ -1,0 +1,48 @@
+{
+  "name": "toolbuddy-spine-viewer",
+  "displayName": "ToolBuddy Spine Viewer",
+  "description": "Play Spine animations and switch skins in VS Code. More features on ToolBuddy: https://www.toolbuddy.io/spine-viewer",
+  "icon": "assets/toolbuddy-icon.png",
+  "version": "0.1.0",
+  "publisher": "toolbuddy",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:toolbuddySpineViewer.openFolder"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "toolbuddySpineViewer.openFolder",
+        "title": "ToolBuddy: Open Spine Viewer"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "toolbuddySpineViewer.openFolder",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "homepage": "https://www.toolbuddy.io/spine-viewer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toolbuddy-io/code-extension.git"
+  },
+  "scripts": {
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.6.2"
+  },
+  "license": "MIT"
+}
