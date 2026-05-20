@@ -6,7 +6,7 @@ const path = require("node:path");
 
 const ACCEPTED_EXTENSIONS = new Set(["json", "atlas", "png", "jpg", "jpeg", "webp", "avif"]);
 const IMAGE_EXTENSIONS = new Set(["png", "jpg", "jpeg", "webp", "avif"]);
-const RUNTIME_SERIES = new Set(["3.6", "3.7", "3.8", "4.0", "4.1", "4.2", "4.3"]);
+const RUNTIME_SERIES = new Set(["3.7", "3.8"]);
 
 function normalizePathPart(input) {
   return String(input || "").replace(/\\/g, "/");
@@ -59,6 +59,25 @@ function parseSkeletonMetadata(skeletonJson) {
     const parsed = JSON.parse(skeletonJson);
     const versionLabel = parsed?.skeleton?.spine?.trim() || "Unknown";
 
+    const rawBounds = {
+      x: parsed?.skeleton?.x,
+      y: parsed?.skeleton?.y,
+      width: parsed?.skeleton?.width,
+      height: parsed?.skeleton?.height,
+    };
+    const hasFiniteBounds = [rawBounds.width, rawBounds.height].every(
+      (value) => typeof value === "number" && Number.isFinite(value),
+    );
+    const skeletonBounds =
+      hasFiniteBounds && rawBounds.width > 0 && rawBounds.height > 0
+        ? {
+            x: typeof rawBounds.x === "number" && Number.isFinite(rawBounds.x) ? rawBounds.x : -rawBounds.width / 2,
+            y: typeof rawBounds.y === "number" && Number.isFinite(rawBounds.y) ? rawBounds.y : -rawBounds.height / 2,
+            width: rawBounds.width,
+            height: rawBounds.height,
+          }
+        : null;
+
     const animationNames = Array.isArray(parsed?.animations)
       ? parsed.animations.map((entry) => entry?.name || "")
       : parsed?.animations && typeof parsed.animations === "object"
@@ -75,12 +94,14 @@ function parseSkeletonMetadata(skeletonJson) {
       versionLabel,
       animationNames: toUniqueNames(animationNames),
       skinNames: toUniqueNames(skinNames),
+      skeletonBounds,
     };
   } catch {
     return {
       versionLabel: "Unknown",
       animationNames: [],
       skinNames: [],
+      skeletonBounds: null,
     };
   }
 }
@@ -163,6 +184,7 @@ function scoreSpineJsonAtlasPair(skeletonFileName, atlasFileName, attachmentHint
   let score = 0;
   const skeletonStem = toComparableSpineStem(skeletonFileName);
   const atlasStem = toComparableSpineStem(atlasFileName);
+
   if (skeletonStem === atlasStem) {
     score += 100;
   } else if (skeletonStem.startsWith(atlasStem) || atlasStem.startsWith(skeletonStem)) {
@@ -188,16 +210,6 @@ function resolveRuntimeSeries(versionLabel) {
   return RUNTIME_SERIES.has(series) ? series : null;
 }
 
-function normalizeAtlasTextForRuntime(atlasText) {
-  const withoutBom = String(atlasText || "").replace(/^\uFEFF/, "");
-  const normalizedNewlines = withoutBom.replace(/\r\n?/g, "\n");
-  const lines = normalizedNewlines.split("\n");
-  while (lines.length && lines[0].trim() === "") {
-    lines.shift();
-  }
-  return lines.join("\n");
-}
-
 function normalizeSkeletonJsonForRuntime(skeletonText, runtimeSeries) {
   try {
     const parsed = JSON.parse(skeletonText);
@@ -205,8 +217,8 @@ function normalizeSkeletonJsonForRuntime(skeletonText, runtimeSeries) {
       return skeletonText;
     }
 
-    const isLegacyRuntime = Boolean(runtimeSeries && runtimeSeries.startsWith("3."));
-    const requiresLegacySkinShape = runtimeSeries === "3.6" || runtimeSeries === "3.7";
+    const isLegacyRuntime = runtimeSeries?.startsWith("3.") ?? false;
+    const requiresLegacySkinShape = runtimeSeries === "3.7";
     let didMutate = false;
 
     if (!requiresLegacySkinShape && parsed.skins && !Array.isArray(parsed.skins) && typeof parsed.skins === "object") {
@@ -229,28 +241,68 @@ function normalizeSkeletonJsonForRuntime(skeletonText, runtimeSeries) {
         if (!value || typeof value !== "object") {
           return;
         }
-        const curve = value.curve;
+
+        const record = value;
+        const curve = record.curve;
         if (Array.isArray(curve) && curve.length >= 4) {
           const [c1, c2, c3, c4] = curve;
           if ([c1, c2, c3, c4].every((entry) => typeof entry === "number" && Number.isFinite(entry))) {
-            value.curve = c1;
-            value.c2 = c2;
-            value.c3 = c3;
-            value.c4 = c4;
+            record.curve = c1;
+            record.c2 = c2;
+            record.c3 = c3;
+            record.c4 = c4;
             didMutate = true;
           }
         }
-        for (const nested of Object.values(value)) {
+
+        for (const nested of Object.values(record)) {
           rewriteCurves(nested);
         }
       };
       rewriteCurves(parsed.animations);
     }
 
-    return didMutate ? JSON.stringify(parsed) : skeletonText;
+    if (!didMutate) {
+      return skeletonText;
+    }
+    return JSON.stringify(parsed);
   } catch {
     return skeletonText;
   }
+}
+
+function normalizeAtlasTextForRuntime(atlasText) {
+  const withoutBom = String(atlasText || "").replace(/^\uFEFF/, "");
+  const normalizedNewlines = withoutBom.replace(/\r\n?/g, "\n");
+  const lines = normalizedNewlines.split("\n");
+  while (lines.length > 0 && lines[0].trim() === "") {
+    lines.shift();
+  }
+  return lines.join("\n");
+}
+
+function mimeForExtension(extension) {
+  switch (extension.toLowerCase()) {
+    case "json":
+      return "application/json";
+    case "atlas":
+      return "text/plain";
+    case "png":
+      return "image/png";
+    case "jpg":
+    case "jpeg":
+      return "image/jpeg";
+    case "webp":
+      return "image/webp";
+    case "avif":
+      return "image/avif";
+    default:
+      return "application/octet-stream";
+  }
+}
+
+function toDataUri(buffer, mimeType) {
+  return `data:${mimeType};base64,${Buffer.from(buffer).toString("base64")}`;
 }
 
 function getFileNameVariants(relativePath) {
@@ -280,15 +332,6 @@ function getFileNameVariants(relativePath) {
         variants.add(`./${plainBase}`);
       }
     }
-
-    try {
-      const decoded = decodeURIComponent(withoutLeadingSlash);
-      if (decoded) {
-        variants.add(decoded);
-      }
-    } catch {
-      // no-op
-    }
   };
 
   addVariant(normalizedRelativePath);
@@ -297,28 +340,14 @@ function getFileNameVariants(relativePath) {
   return variants;
 }
 
-function mimeForExtension(extension) {
-  switch (extension.toLowerCase()) {
-    case "json":
-      return "application/json";
-    case "atlas":
-      return "text/plain";
-    case "png":
-      return "image/png";
-    case "jpg":
-    case "jpeg":
-      return "image/jpeg";
-    case "webp":
-      return "image/webp";
-    case "avif":
-      return "image/avif";
-    default:
-      return "application/octet-stream";
+function detectPremultipliedAlpha(atlasFileName, atlasText, atlasImageRefs) {
+  if (/(^|[_-])pma([_.-]|$)/i.test(atlasFileName)) {
+    return true;
   }
-}
-
-function toDataUri(buffer, mimeType) {
-  return `data:${mimeType};base64,${Buffer.from(buffer).toString("base64")}`;
+  if (/(^|\n)\s*pma\s*:\s*true\s*($|\n)/i.test(atlasText)) {
+    return true;
+  }
+  return atlasImageRefs.some((name) => /(^|[_-])pma([_.-]|$)/i.test(name));
 }
 
 async function listFilesRecursive(rootDir) {
@@ -414,6 +443,7 @@ async function extractSpineBundleFromDirectory(rootDir) {
       const normalizedText = normalizeAtlasTextForRuntime(originalText);
       return {
         file,
+        originalText,
         normalizedText,
         imageRefs: extractAtlasImageReferences(normalizedText),
         regionNames: extractAtlasRegionNames(normalizedText),
@@ -423,16 +453,15 @@ async function extractSpineBundleFromDirectory(rootDir) {
 
   const skeletonPrepared = await Promise.all(
     skeletonFiles.map(async (file) => {
-      const originalText = await fs.readFile(file.fullPath, "utf8");
-      const metadata = parseSkeletonMetadata(originalText);
+      const skeletonText = await fs.readFile(file.fullPath, "utf8");
+      const metadata = parseSkeletonMetadata(skeletonText);
       const runtimeSeries = resolveRuntimeSeries(metadata.versionLabel);
       return {
         file,
-        originalText,
         metadata,
         runtimeSeries,
-        normalizedText: normalizeSkeletonJsonForRuntime(originalText, runtimeSeries),
-        attachmentHints: collectAttachmentRegionHintsFromSkeleton(originalText),
+        normalizedText: normalizeSkeletonJsonForRuntime(skeletonText, runtimeSeries),
+        attachmentHints: collectAttachmentRegionHintsFromSkeleton(skeletonText),
       };
     }),
   );
@@ -459,7 +488,9 @@ async function extractSpineBundleFromDirectory(rootDir) {
   }
 
   if (!selectedSkeleton.runtimeSeries) {
-    throw new Error(`Unsupported Spine version ${selectedSkeleton.metadata.versionLabel}. Supported versions are 3.6 to 4.3.`);
+    throw new Error(
+      `Unsupported Spine version ${selectedSkeleton.metadata.versionLabel}. Supported versions are Spine 3.7 and 3.8 only.`,
+    );
   }
   if (!selectedSkeleton.metadata.animationNames.length) {
     throw new Error("No animations found in the selected Spine skeleton JSON.");
@@ -479,15 +510,14 @@ async function extractSpineBundleFromDirectory(rootDir) {
       missingAtlasPages.push(pageRef);
     }
   }
+
   if (missingAtlasPages.length) {
     throw new Error(`Atlas references missing image files: ${missingAtlasPages.join(", ")}`);
   }
 
+  const totalBytes = acceptedFiles.reduce((sum, file) => sum + file.size, 0);
   const rawDataURIs = {};
-  let totalBytes = 0;
-
   for (const file of acceptedFiles) {
-    totalBytes += file.size;
     const rawBuffer = await fs.readFile(file.fullPath);
     const mappedData = toDataUri(rawBuffer, mimeForExtension(file.extension));
     for (const variant of getFileNameVariants(file.relativePath)) {
@@ -504,33 +534,21 @@ async function extractSpineBundleFromDirectory(rootDir) {
     "text/plain",
   );
 
-  const atlasPageNames = [];
-  const atlasPageDataUris = [];
-  for (const pageRef of selectedAtlas.imageRefs) {
-    const baseName = pageRef.split("/").pop() || pageRef;
-    const pageFile = variantToFile.get(pageRef) || variantToFile.get(baseName);
-    if (!pageFile) {
-      continue;
-    }
-    atlasPageNames.push(pageRef);
-    const imageBuffer = await fs.readFile(pageFile.fullPath);
-    atlasPageDataUris.push(toDataUri(imageBuffer, mimeForExtension(pageFile.extension)));
-  }
-
-  const premultipliedAlpha = selectedAtlas.imageRefs.some((name) => /(^|[_-])pma([_.-]|$)/i.test(name));
-
   return {
     sourceDirectory: absoluteRoot,
     fileCount: acceptedFiles.length,
     totalBytes,
     skeletonFileName: selectedSkeleton.file.fileName,
+    skeletonRelativePath: selectedSkeleton.file.relativePath,
+    skeletonBounds: selectedSkeleton.metadata.skeletonBounds,
     atlasFileName: selectedAtlas.file.fileName,
-    skeletonText: selectedSkeleton.normalizedText,
-    atlasText: selectedAtlas.normalizedText,
+    atlasRelativePath: selectedAtlas.file.relativePath,
     rawDataURIs,
-    atlasPageNames,
-    atlasPageDataUris,
-    premultipliedAlpha,
+    premultipliedAlpha: detectPremultipliedAlpha(
+      selectedAtlas.file.fileName,
+      selectedAtlas.normalizedText,
+      selectedAtlas.imageRefs,
+    ),
     versionLabel: selectedSkeleton.metadata.versionLabel,
     runtimeSeries: selectedSkeleton.runtimeSeries,
     animations: selectedSkeleton.metadata.animationNames,

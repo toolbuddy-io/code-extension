@@ -1,51 +1,39 @@
-# ToolBuddy Spine Viewer (VS Code Extension)
+# Spine Animation Player (VS Code Extension)
 
-Spine Viewer extension extracted from ToolBuddy runtime logic.
+Spine Animation Player lets you open a Spine export folder inside VS Code and use two features:
 
-## Current scope
+- Play animation
+- Update skin
 
-- Enabled:
-- Play/pause animation
-- Switch skin
+Supported runtime versions in this extension build:
 
-- Locked (not enabled in this version):
-- Timeline sequencing
-- Export (GIF/video)
-- Debug overlays
-- Speed, grid, and pan controls
+- Spine 3.7
+- Spine 3.8
 
-For advanced controls and full feature set, use ToolBuddy Spine Viewer:
-- https://www.toolbuddy.io/spine-viewer
+For advanced tools and full feature set, use [ToolBuddy Spine Viewer](https://www.toolbuddy.io/spine-viewer).
 
-## Install locally
+## How To Use
 
-1. Open this folder in VS Code:
-   - `extension/vs-code/spine-viewer`
-2. Run:
-   - `npm install`
-3. Press `F5` to launch Extension Development Host.
-4. Run command:
-   - `ToolBuddy: Open Spine Viewer`
-5. Select a Spine export folder containing:
-   - skeleton `.json`
-   - `.atlas`
-   - atlas page image files (`.png`, `.jpg`, `.jpeg`, `.webp`, `.avif`)
+1. In VS Code Explorer, right-click a folder that contains Spine export files.
+2. Click `ToolBuddy: Open Spine Animation Player`.
+3. Use animation and skin dropdowns in the player panel.
 
-## Run from Explorer folder
+You can also run the command from Command Palette and pick a folder.
 
-1. In VS Code Explorer, right-click a folder.
-2. Select `ToolBuddy: Open Spine Viewer`.
-3. Extension validates the folder has Spine bundle files before launching.
+## Required Files In Folder
 
-## Publish
+- Skeleton `.json`
+- `.atlas` or `.skel`
+- Atlas page image files (`.png`, `.jpg`, `.jpeg`, `.webp`, `.avif`)
 
-1. Set your publisher in `package.json`.
-2. Login to `vsce` and publish:
-   - `npx vsce login <publisher>`
-   - `npx vsce publish`
+## Rate And Support
 
-## Notes
+- Rate extension in VS Code Marketplace from command: `ToolBuddy: Rate Spine Animation Player`
+- Star GitHub repo from command: `ToolBuddy: Star Spine Animation Player on GitHub`
 
-- Runtime JS/CSS are loaded from UNPKG (`@esotericsoftware/spine-player@4.2.115`).
-- Extraction and JSON/atlas pairing logic are in:
-  - `src/spine-extraction.js`
+## Local Dev
+
+```bash
+npm install
+npm run package
+```

@@ -1,7 +1,7 @@
 {
   "name": "toolbuddy-spine-viewer",
-  "displayName": "ToolBuddy Spine Viewer",
-  "description": "Play Spine animations and switch skins in VS Code. More features on ToolBuddy: https://www.toolbuddy.io/spine-viewer",
+  "displayName": "Spine Animation Player",
+  "description": "Preview Spine 3.7 and 3.8 exports in VS Code with animation playback and skin switching.",
   "icon": "assets/toolbuddy-icon.png",
   "version": "0.1.0",
   "publisher": "toolbuddy",
@@ -9,24 +9,35 @@
     "vscode": "^1.90.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Visualization"
   ],
   "activationEvents": [
-    "onCommand:toolbuddySpineViewer.openFolder"
+    "onCommand:toolbuddySpineViewer.openFolder",
+    "onCommand:toolbuddySpineViewer.rateExtension",
+    "onCommand:toolbuddySpineViewer.starOnGitHub"
   ],
   "main": "./src/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "toolbuddySpineViewer.openFolder",
-        "title": "ToolBuddy: Open Spine Viewer"
+        "title": "ToolBuddy: Open Spine Animation Player"
+      },
+      {
+        "command": "toolbuddySpineViewer.rateExtension",
+        "title": "ToolBuddy: Rate Spine Animation Player"
+      },
+      {
+        "command": "toolbuddySpineViewer.starOnGitHub",
+        "title": "ToolBuddy: Star Spine Animation Player on GitHub"
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "command": "toolbuddySpineViewer.openFolder",
-          "when": "explorerResourceIsFolder",
+          "when": "explorerResourceIsFolder && resourcePath in toolbuddySpineViewer.supportedFolders",
           "group": "navigation"
         }
       ]
@@ -38,11 +49,29 @@
     "url": "https://github.com/toolbuddy-io/code-extension.git"
   },
   "scripts": {
-    "package": "vsce package"
+    "package": "npx vsce package"
   },
   "devDependencies": {
     "@types/vscode": "^1.90.0",
     "@vscode/vsce": "^3.6.2"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "Spine Previewer",
+    "Spine Player",
+    "Spine Viewer",
+    "Spine Animation"
+  ],
+  "files": [
+    "src/**",
+    "media/**",
+    "vendor/**",
+    "assets/**",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "bugs": {
+    "url": "https://github.com/toolbuddy-io/code-extension/issues"
+  }
 }
