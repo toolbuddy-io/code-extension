@@ -3,7 +3,7 @@
   "displayName": "Spine Animation Player",
   "description": "Preview Spine 3.7 and 3.8 export folders in VS Code.",
   "icon": "assets/toolbuddy-icon.png",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "publisher": "toolbuddy",
   "engines": {
     "vscode": "^1.90.0"
@@ -21,7 +21,7 @@
     "commands": [
       {
         "command": "toolbuddySpineViewer.openFolder",
-        "title": "ToolBuddy: Open Spine Animation Player"
+        "title": "ToolBuddy: Open Spine Player"
       }
     ],
     "menus": {

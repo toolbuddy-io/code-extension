@@ -13,7 +13,7 @@ Supported runtime versions:
 ## How To Use
 
 1. In VS Code Explorer, right-click a folder that contains Spine export files.
-2. Click `ToolBuddy: Open Spine Animation Player`.
+2. Click `ToolBuddy: Open Spine Player`.
 3. Use animation and skin dropdowns in the player panel.
 
 You can also run the command from Command Palette and pick a folder.
