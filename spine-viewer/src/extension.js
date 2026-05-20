@@ -3,7 +3,7 @@
 
 const path = require("node:path");
 const vscode = require("vscode");
-const { COMMANDS, CONTEXT_KEYS, URLS } = require("./constants");
+const { COMMANDS, CONTEXT_KEYS } = require("./constants");
 const { openSpineViewer } = require("./viewer");
 
 const SPINE_IMAGE_GLOBS = ["**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.webp", "**/*.avif"];
@@ -129,18 +129,8 @@ function activate(context) {
     }
   });
 
-  const rateExtensionCommand = vscode.commands.registerCommand(COMMANDS.RATE_EXTENSION, async () => {
-    await vscode.env.openExternal(vscode.Uri.parse(URLS.MARKETPLACE_REVIEW));
-  });
-
-  const starOnGitHubCommand = vscode.commands.registerCommand(COMMANDS.STAR_ON_GITHUB, async () => {
-    await vscode.env.openExternal(vscode.Uri.parse(URLS.GITHUB_REPO));
-  });
-
   context.subscriptions.push(
     openFolderCommand,
-    rateExtensionCommand,
-    starOnGitHubCommand,
     ...watchers,
     workspaceFoldersChanged,
     filesCreated,

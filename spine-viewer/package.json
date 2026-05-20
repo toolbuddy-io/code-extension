@@ -1,7 +1,7 @@
 {
   "name": "toolbuddy-spine-viewer",
   "displayName": "Spine Animation Player",
-  "description": "Preview Spine 3.7 and 3.8 exports in VS Code with animation playback and skin switching.",
+  "description": "Preview Spine 3.7 and 3.8 export folders in VS Code.",
   "icon": "assets/toolbuddy-icon.png",
   "version": "1.0.0",
   "publisher": "toolbuddy",
@@ -14,9 +14,7 @@
   ],
   "activationEvents": [
     "onStartupFinished",
-    "onCommand:toolbuddySpineViewer.openFolder",
-    "onCommand:toolbuddySpineViewer.rateExtension",
-    "onCommand:toolbuddySpineViewer.starOnGitHub"
+    "onCommand:toolbuddySpineViewer.openFolder"
   ],
   "main": "./src/extension.js",
   "contributes": {
@@ -24,14 +22,6 @@
       {
         "command": "toolbuddySpineViewer.openFolder",
         "title": "ToolBuddy: Open Spine Animation Player"
-      },
-      {
-        "command": "toolbuddySpineViewer.rateExtension",
-        "title": "ToolBuddy: Rate Spine Animation Player"
-      },
-      {
-        "command": "toolbuddySpineViewer.starOnGitHub",
-        "title": "ToolBuddy: Star Spine Animation Player on GitHub"
       }
     ],
     "menus": {
@@ -58,10 +48,10 @@
   },
   "license": "MIT",
   "keywords": [
-    "Spine Previewer",
-    "Spine Player",
-    "Spine Viewer",
-    "Spine Animation"
+    "spine",
+    "spine viewer",
+    "animation",
+    "vscode"
   ],
   "files": [
     "src/**",

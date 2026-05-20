@@ -5,12 +5,10 @@ Spine Animation Player lets you open a Spine export folder inside VS Code and us
 - Play animation
 - Update skin
 
-Supported runtime versions in this extension build:
+Supported runtime versions:
 
 - Spine 3.7
 - Spine 3.8
-
-For advanced tools and full feature set, use [ToolBuddy Spine Viewer](https://www.toolbuddy.io/spine-viewer).
 
 ## How To Use
 
@@ -25,11 +23,6 @@ You can also run the command from Command Palette and pick a folder.
 - Skeleton `.json`
 - `.atlas` or `.skel`
 - Atlas page image files (`.png`, `.jpg`, `.jpeg`, `.webp`, `.avif`)
-
-## Rate And Support
-
-- Rate extension in VS Code Marketplace from command: `ToolBuddy: Rate Spine Animation Player`
-- Star GitHub repo from command: `ToolBuddy: Star Spine Animation Player on GitHub`
 
 ## Local Dev
 
