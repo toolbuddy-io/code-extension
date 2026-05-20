@@ -3,7 +3,7 @@
   "displayName": "Spine Animation Player",
   "description": "Preview Spine 3.7 and 3.8 exports in VS Code with animation playback and skin switching.",
   "icon": "assets/toolbuddy-icon.png",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "publisher": "toolbuddy",
   "engines": {
     "vscode": "^1.90.0"
@@ -13,6 +13,7 @@
     "Visualization"
   ],
   "activationEvents": [
+    "onStartupFinished",
     "onCommand:toolbuddySpineViewer.openFolder",
     "onCommand:toolbuddySpineViewer.rateExtension",
     "onCommand:toolbuddySpineViewer.starOnGitHub"

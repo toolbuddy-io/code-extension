@@ -13,6 +13,10 @@ function toFolderKey(fileUri) {
   return vscode.Uri.file(path.dirname(fileUri.fsPath)).path;
 }
 
+function toFolderFsPath(fileUri) {
+  return path.dirname(fileUri.fsPath);
+}
+
 async function findSpineFolderContextMap() {
   const [
     jsonFiles,
@@ -31,9 +35,16 @@ async function findSpineFolderContextMap() {
   const folderFlags = new Map();
   const touch = (uri, update) => {
     const key = toFolderKey(uri);
-    const current = folderFlags.get(key) || { hasJson: false, hasAtlas: false, hasSkel: false, hasImage: false };
+    const fallbackKey = toFolderFsPath(uri);
+    const current = folderFlags.get(key) || folderFlags.get(fallbackKey) || {
+      hasJson: false,
+      hasAtlas: false,
+      hasSkel: false,
+      hasImage: false,
+    };
     update(current);
     folderFlags.set(key, current);
+    folderFlags.set(fallbackKey, current);
   };
 
   for (const uri of jsonFiles) {
