@@ -1,87 +1,62 @@
 # Spine Animation Player (VS Code Extension)
 
-Spine Animation Player brings Spine export preview directly into Visual Studio Code. It validates bundles, resolves runtime compatibility, and provides interactive animation and skin playback without leaving your workspace.
+Open-source Spine export playback and validation for production review inside VS Code.
 
-## Features
+## Overview
 
-- Folder context command in Explorer: `ToolBuddy: Open Spine Player`
-- Command Palette support with folder picker
-- Spine bundle validation before viewer launch
-- Runtime compatibility for Spine `3.7` and `3.8`
-- Automatic best-match pairing for skeleton and atlas files in complex folders
-- Animation selector and skin selector
-- Playback controls for play/pause and loop
-- Atlas image reference verification with clear error messages
-- Local processing workflow (no external service dependency)
+Spine Animation Player verifies Spine export folders, resolves compatible runtime assets, and opens an interactive player for animation and skin inspection.
 
-## Getting Started
+## Production Specification
 
-1. In VS Code Explorer, right-click a folder that contains a Spine export.
-2. Click `ToolBuddy: Open Spine Player`.
-3. Use animation and skin controls in the player panel.
+### Entry Point
 
-You can also run the command from Command Palette and select a folder.
+- Explorer folder context action: `ToolBuddy: Open Spine Player`
+- Command Palette command: `ToolBuddy: Open Spine Player`
 
-## Commands
+### Bundle Requirements
 
-- `ToolBuddy: Open Spine Player`  
-  Opens the Spine player panel for a selected folder and loads a validated Spine bundle.
+- Skeleton file: `.json`
+- Atlas file: `.atlas`
+- Atlas page images: `.png`, `.jpg`, `.jpeg`, `.webp`, `.avif`
 
-## Requirements
+### Runtime Support
 
-- Visual Studio Code `1.90.0` or higher
-- A complete Spine export folder containing:
-  - Skeleton `.json`
-  - Atlas `.atlas`
-  - Atlas page images (`.png`, `.jpg`, `.jpeg`, `.webp`, or `.avif`)
+- Supported Spine series: `3.7`, `3.8`
+- Runtime is auto-selected from skeleton metadata.
+- Unsupported versions are blocked with explicit user-facing errors.
 
-## Notes
+### Validation and Selection Logic
 
-- This extension supports Spine runtime series `3.7` and `3.8` only.
-- If multiple skeleton or atlas candidates exist, the extension auto-selects the most compatible pair.
-- Missing atlas image references are blocked before playback and reported as actionable errors.
-- Extension product reference: [ToolBuddy Spine Viewer](https://www.toolbuddy.io/spine-viewer)
+- Verifies selected folder is a complete Spine bundle.
+- Resolves the best skeleton-atlas pairing when multiple candidates are present.
+- Ensures atlas image references are valid before viewer launch.
+- Requires at least one animation in the selected skeleton.
 
-## Known Issues
+### Viewer Capabilities
 
-- Very large Spine bundles can take longer to parse and initialize in the webview.
-- Folders without a complete `.json` + `.atlas` + atlas page image set are rejected.
+- Interactive animation and skin selection
+- Play/Pause control
+- Loop toggle
+- Runtime-specific player loading for supported Spine versions
 
-## Found a bug?
+### Operational Behavior
 
-To file a new issue, go to Visual Studio Code's `Help > Report Issue`.
+- Fails fast for incomplete bundles or missing assets.
+- Shows clear error messages directly in VS Code.
 
-In the popup UI:
-- Select `An extension` in the `File on` dropdown.
-- Select `Spine Animation Player` in the extension dropdown.
+## Data Handling
 
-Submitting this form will open the issue flow on GitHub.
+- Operates locally on workspace files.
+- No external service dependency for validation or playback setup.
 
-Alternatively, file an issue directly on the GitHub repository:  
-[https://github.com/toolbuddy-io/code-extension/issues](https://github.com/toolbuddy-io/code-extension/issues)
+## Compatibility
 
-## Release Notes
+- Visual Studio Code `1.90.0` or higher.
 
-### 1.0.3
+## Support
 
-- Renamed command label to `ToolBuddy: Open Spine Player`
-- Updated Marketplace-facing naming consistency
-
-### 1.0.2
-
-- Runtime bundle limited to Spine `3.7` and `3.8`
-
-### 1.0.0
-
-- Folder-aware Explorer integration
-- Initial stabilized Spine player release for VS Code
-
-## Contributing
-
-Contributions are welcome. Please feel free to submit a Pull Request on GitHub:  
-[https://github.com/toolbuddy-io/code-extension/pulls](https://github.com/toolbuddy-io/code-extension/pulls)
+- Issues and feature requests: [GitHub Issues](https://github.com/toolbuddy-io/code-extension/issues)
 
 ## License
 
-This extension is licensed under the MIT License:  
-[spine-viewer/LICENSE](spine-viewer/LICENSE)
+MIT License. See [LICENSE](LICENSE).
