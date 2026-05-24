@@ -1,25 +1,18 @@
-# Code Extension Repo
+# Code Extension Repository
 
-This repository contains VS Code extensions published by ToolBuddy.
+This branch contains the ToolBuddy Texture Packer VS Code extension only.
 
-## Extensions
+## Branch model
 
-- `spine-viewer/`
-  - Play Spine animation
-  - Switch Spine skin
-  - Run from command palette and Explorer folder context menu
+- `master`: empty coordination branch (no extension source)
+- `spine-viewer`: Spine Viewer extension source
+- `texture-packer`: Texture Packer extension source (this branch)
+
+## Extension location
+
 - `texture-packer/`
-  - Scan nested image folders
-  - Build sprite atlases from Explorer folder right-click
-  - Export atlas packages for Cocos, Unity, Phaser, CSS, and Json
 
 ## Local run
-
-```bash
-cd spine-viewer
-npm install
-# Press F5 in VS Code to launch Extension Development Host
-```
 
 ```bash
 cd texture-packer
@@ -30,22 +23,11 @@ npm install
 ## Package
 
 ```bash
-cd spine-viewer
-npx vsce package
-```
-
-```bash
 cd texture-packer
 npx vsce package
 ```
 
 ## Publish
-
-```bash
-cd spine-viewer
-npx vsce login <publisher>
-npx vsce publish
-```
 
 ```bash
 cd texture-packer

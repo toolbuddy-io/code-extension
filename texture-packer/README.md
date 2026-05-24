@@ -83,4 +83,4 @@ Contributions are welcome. Please feel free to submit a Pull Request on GitHub:
 ## License
 
 This extension is licensed under the MIT License:  
-[https://github.com/toolbuddy-io/code-extension/blob/main/texture-packer/LICENSE](https://github.com/toolbuddy-io/code-extension/blob/main/texture-packer/LICENSE)
+[https://github.com/toolbuddy-io/code-extension/blob/texture-packer/texture-packer/LICENSE](https://github.com/toolbuddy-io/code-extension/blob/texture-packer/texture-packer/LICENSE)

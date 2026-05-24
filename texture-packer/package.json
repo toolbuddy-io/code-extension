@@ -34,7 +34,7 @@
       ]
     }
   },
-  "homepage": "https://github.com/toolbuddy-io/code-extension/tree/main/texture-packer",
+  "homepage": "https://github.com/toolbuddy-io/code-extension/tree/texture-packer/texture-packer",
   "repository": {
     "type": "git",
     "url": "https://github.com/toolbuddy-io/code-extension.git"
