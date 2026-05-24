@@ -1,13 +1,16 @@
-# Code Extension Repo
+# Code Extension Repository
 
-This repository contains VS Code extensions published by ToolBuddy.
+This branch contains the ToolBuddy Spine Viewer VS Code extension only.
 
-## Current extension
+## Branch model
+
+- `master`: empty coordination branch (no extension source)
+- `spine-viewer`: Spine Viewer extension source (this branch)
+- `texture-packer`: Texture Packer extension source
+
+## Extension location
 
 - `spine-viewer/`
-  - Play Spine animation
-  - Switch Spine skin
-  - Run from command palette and Explorer folder context menu
 
 ## Local run
 
