@@ -3,7 +3,7 @@
   "displayName": "Texture Packer",
   "description": "Create sprite atlases from nested image folders inside VS Code.",
   "icon": "assets/toolbuddy-icon.png",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "toolbuddy",
   "engines": {
     "vscode": "^1.90.0"
@@ -44,8 +44,7 @@
   },
   "dependencies": {
     "free-tex-packer-core": "^0.3.5",
-    "sharp": "^0.33.5",
-    "xmlbuilder": "~11.0.0"
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@types/vscode": "^1.90.0",
