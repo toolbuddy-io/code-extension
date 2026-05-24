@@ -62,6 +62,11 @@ Alternatively, file an issue directly on the GitHub repository:
 
 ## Release Notes
 
+### 1.0.4
+
+- Refined Marketplace README structure and section clarity
+- Updated release notes and support references
+
 ### 1.0.3
 
 - Renamed command label to `ToolBuddy: Open Spine Player`
