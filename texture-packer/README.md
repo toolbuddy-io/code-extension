@@ -1,90 +1,86 @@
 # Texture Packer (VS Code Extension)
 
-Production-focused sprite atlas generation for VS Code workspaces.
+Texture Packer brings sprite atlas generation directly into Visual Studio Code. It scans nested image folders, lets you control packing behavior, and exports atlas packages for common game engines without leaving your workspace.
 
-## Overview
+## Features
 
-Texture Packer scans image folders, packs selected sprites into one or more atlas pages, and exports engine-ready metadata and textures directly from VS Code.
+- Folder context command in Explorer: `ToolBuddy: Create Sprite Atlas`
+- Recursive scan of nested folders
+- Source support for `.png`, `.jpg`, `.jpeg`, and `.webp`
+- Three-panel workspace for selection, preview, and configuration
+- Atlas preview controls for zoom, page switching, and outline visibility
+- Layout size options from `512` to `4096`
+- Size constraint modes: `Any size`, `Power of two`, `Square`, `Power-of-two square`
+- Scale options from `0.25` to `2.0`
+- Sprite controls for padding, extrude, trim, rotation, and identical-sprite detection
+- Multipack output using the ToolBuddy-refined packing flow
+- Export metadata targets: `Cocos`, `Unity`, `Phaser`, `CSS`, `Json`
+- Optional workflow to move selected sprites into a dedicated folder before export
+- Download flow with naming prompt and automatic parent-folder fallback
 
-## Production Specification
+## Getting Started
 
-### Invocation
+1. In VS Code Explorer, right-click a folder.
+2. Click `ToolBuddy: Create Sprite Atlas`.
+3. Review scanned files and remove any item you do not want included.
+4. Configure layout, sprite, and output settings.
+5. Click `Download`, then choose the destination and file name.
 
-- Explorer folder context action: `ToolBuddy: Create Sprite Atlas`
-- Command Palette command: `ToolBuddy: Create Sprite Atlas`
+## Commands
 
-### Source Discovery
+- `ToolBuddy: Create Sprite Atlas`  
+  Opens the Texture Packer panel for the selected folder and scans supported images.
 
-- Recursively scans the selected folder.
-- Ignores `.git`, `.vscode`, and `node_modules`.
-- Includes source images with `.png`, `.jpg`, `.jpeg`, and `.webp`.
-- Excludes previously generated atlas pages listed in `.toolbuddy-texture-packer.json`.
+## Requirements
 
-### Packing and Preview
+- Visual Studio Code `1.90.0` or higher
 
-- Interactive selection and exclusion of sprites before export.
-- Real-time atlas preview with multi-page navigation, zoom controls, and outline toggle.
-- Layout controls:
-  - Atlas size: `512`, `1024`, `2048`, `4096`
-  - Constraints: `Any size`, `Power of two`, `Square`, `Power-of-two square`
-  - Scale: `0.25`, `0.5`, `0.75`, `1`, `1.5`, `2.0`
-- Sprite controls:
-  - Padding
-  - Extrude
-  - Alpha threshold
-  - Rotation
-  - Trim
-  - Identical sprite detection
-  - File extension removal
-  - Folder prefixing
+## Notes
 
-### Export Targets
+- Atlas generation is powered by `free-tex-packer-core` with ToolBuddy-aligned refinement logic.
+- Generated atlas pages are tracked in `.toolbuddy-texture-packer.json` to prevent previously exported pages from being re-ingested on future scans.
+- Original product reference: [ToolBuddy Texture Packer](https://www.toolbuddy.io/texturepacker)
 
-- Metadata exporters:
-  - `Cocos`
-  - `Unity`
-  - `Phaser`
-  - `CSS`
-  - `Json`
-- Uses multipack heuristics to minimize atlas count and total atlas area.
+## Known Issues
 
-### File System Operations
+- Very large source folders can take longer to scan and preview, especially with high-resolution assets.
 
-- Writes exported atlas files into the selected folder.
-- Optional: moves selected source sprites into a dedicated source folder before export.
-- Maintains `.toolbuddy-texture-packer.json` as a local manifest for generated atlas tracking.
+## Found a bug?
 
-## Supported Input
+To file a new issue, go to Visual Studio Code's `Help > Report Issue`.
 
-- Folder-based workflow only.
-- Supported source image formats: `.png`, `.jpg`, `.jpeg`, `.webp`.
-- WebP inputs are converted for packing compatibility during processing.
+In the popup UI:
+- Select `An extension` in the `File on` dropdown.
+- Select `Texture Packer` in the extension dropdown.
 
-## Output Artifacts
+Submitting this form will open the issue flow on GitHub.
 
-- One or more atlas page images.
-- Exporter-specific metadata files.
-- Local manifest file: `.toolbuddy-texture-packer.json`.
+Alternatively, file an issue directly on the GitHub repository:  
+[https://github.com/toolbuddy-io/code-extension/issues](https://github.com/toolbuddy-io/code-extension/issues)
 
-## Operational Limits and Error Conditions
+## Release Notes
 
-- Requires at least one selected sprite for export.
-- Returns clear errors for unsupported or invalid images.
-- Large or high-resolution sprite sets can increase preview and export time.
+### 0.1.1
 
-## Data Handling
+- Refined Marketplace description and section structure
+- Added issue-reporting, contribution, and license links
+- Removed unused direct dependency (`xmlbuilder`)
 
-- Processes files locally within the selected workspace folder.
-- Does not require external services for atlas generation.
+### 0.1.0
 
-## Compatibility
+- Initial public release
+- Explorer folder action to create sprite atlases
+- Nested image scanning with PNG/JPG/JPEG/WebP support
+- ToolBuddy-style layout, sprite, and output controls
+- Multi-atlas preview with zoom and outline toggle
+- Export/download workflow for Cocos, Unity, Phaser, CSS, and Json metadata formats
 
-- Visual Studio Code `1.90.0` or higher.
+## Contributing
 
-## Support
-
-- Issues and feature requests: [GitHub Issues](https://github.com/toolbuddy-io/code-extension/issues)
+Contributions are welcome. Please feel free to submit a Pull Request on GitHub:  
+[https://github.com/toolbuddy-io/code-extension/pulls](https://github.com/toolbuddy-io/code-extension/pulls)
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+This extension is licensed under the MIT License:  
+[https://github.com/toolbuddy-io/code-extension/blob/texture-packer/texture-packer/LICENSE](https://github.com/toolbuddy-io/code-extension/blob/texture-packer/texture-packer/LICENSE)
