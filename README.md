@@ -1,29 +1,51 @@
 # ToolBuddy VS Code Extensions
 
-This repository is organized as a branch-isolated home for ToolBuddy VS Code extensions.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-The `master` branch is the repository hub and intentionally does not contain extension source code.
+Open-source VS Code extensions from ToolBuddy, managed with an isolated branch model.
 
-## Repository Structure
+The `master` branch is the repository index and intentionally does not include extension source code.
 
-- `master`  
-  Repository overview, governance notes, and shared top-level documents.
-- `spine-viewer`  
-  Source branch for the ToolBuddy Spine Viewer extension.
-- `texture-packer`  
-  Source branch for the ToolBuddy Texture Packer extension.
+## Table of Contents
 
-## Branch Policy
+- [Overview](#overview)
+- [Extensions](#extensions)
+- [Branch Model](#branch-model)
+- [Contributing](#contributing)
+- [Support](#support)
+- [License](#license)
 
-- One extension per long-lived branch.
-- Extension branches remain isolated and are not merged into `master`.
-- Each extension is released independently from its own branch.
+## Overview
+
+This repository is designed for extension-level isolation.  
+Each extension has its own long-lived branch, release cycle, and source history.
+
+## Extensions
+
+| Extension | Source Branch | Purpose |
+| --- | --- | --- |
+| Spine Viewer | [`spine-viewer`](https://github.com/toolbuddy-io/code-extension/tree/spine-viewer) | Preview and play Spine export folders in VS Code. |
+| Texture Packer | [`texture-packer`](https://github.com/toolbuddy-io/code-extension/tree/texture-packer) | Create sprite atlases from image folders in VS Code. |
+
+## Branch Model
+
+- `master`: repository hub (project-level docs and policies).
+- One extension per branch (`spine-viewer`, `texture-packer`, and future extension branches).
+- Extension branches are not merged into `master`.
+- Releases are managed independently per extension branch.
+
+## Contributing
+
+Contributions are welcome.
+
+- Open an issue first for major changes.
+- Submit pull requests to the relevant extension branch.
+- Keep changes scoped to one extension branch per pull request.
 
 ## Support
 
-For feedback, issues, or feature requests, use the GitHub issue tracker:  
-[https://github.com/toolbuddy-io/code-extension/issues](https://github.com/toolbuddy-io/code-extension/issues)
+- Issues and feature requests: [GitHub Issues](https://github.com/toolbuddy-io/code-extension/issues)
 
 ## License
 
-MIT License.
+This project is licensed under the [MIT License](LICENSE).
