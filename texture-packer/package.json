@@ -1,0 +1,65 @@
+{
+  "name": "toolbuddy-texture-packer",
+  "displayName": "Texture Packer",
+  "description": "Create sprite atlases from nested image folders inside VS Code.",
+  "icon": "assets/toolbuddy-icon.png",
+  "version": "0.1.0",
+  "publisher": "toolbuddy",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:toolbuddyTexturePacker.openFolder"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "toolbuddyTexturePacker.openFolder",
+        "title": "ToolBuddy: Create Sprite Atlas"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "toolbuddyTexturePacker.openFolder",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "homepage": "https://github.com/toolbuddy-io/code-extension/tree/main/texture-packer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toolbuddy-io/code-extension.git"
+  },
+  "scripts": {
+    "package": "npx vsce package"
+  },
+  "dependencies": {
+    "free-tex-packer-core": "^0.3.5",
+    "sharp": "^0.33.5",
+    "xmlbuilder": "~11.0.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.6.2"
+  },
+  "license": "MIT",
+  "keywords": [
+    "texture packer",
+    "sprite atlas",
+    "spritesheet",
+    "game dev",
+    "vscode"
+  ],
+  "bugs": {
+    "url": "https://github.com/toolbuddy-io/code-extension/issues"
+  }
+}
